@@ -1,0 +1,33 @@
+% 1c_grafico_histograma_matlab.m
+% Geração de histograma do delay spread no MATLAB (UMa, 6 GHz)
+
+% Carregar os dados do canal (se já gerado)
+if exist('dados_canal.mat', 'file')
+    load('dados_canal.mat', 'pathGains', 'sampleTimes');
+else
+    error('Arquivo dados_canal.mat não encontrado. Execute o script 1a primeiro.');
+end
+
+% Calcular o perfil de potência de atraso (PDP)
+pdp = mean(abs(pathGains).^2, 1);
+pdp = pdp / sum(pdp);
+
+% Calcular RMS Delay Spread (para fins de comparação com simulado)
+delays = sampleTimes;
+rmsDelaySpread = sqrt(sum(pdp .* (delays - sum(pdp .* delays)).^2));
+
+% Criar gráfico
+figure;
+bar(delays * 1e9, pdp, 'k');
+xlabel('Atraso (ns)');
+ylabel('Potência Normalizada');
+title(sprintf('PDP - Canal UMa (6 GHz) | RMS Delay Spread: %.2f ns', rmsDelaySpread * 1e9));
+grid on;
+
+% Criar pasta se necessário
+if ~exist('graficos', 'dir')
+    mkdir('graficos')
+end
+
+% Salvar gráfico
+saveas(gcf, 'graficos/pdp_matlab_uma.png');
