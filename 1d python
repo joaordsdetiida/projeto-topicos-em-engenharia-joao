@@ -1,0 +1,25 @@
+# 1d_grafico_histograma_python.py
+# Geração do gráfico do delay spread a partir dos dados salvos (Python)
+
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+
+# Carregar os dados simulados anteriormente
+delay_spread_samples = np.load('delay_spread_samples.npy')
+
+# Verificar/criar a pasta de saída
+os.makedirs('graficos', exist_ok=True)
+
+# Plotar histograma
+plt.figure(figsize=(8, 5))
+plt.hist(delay_spread_samples * 1e9, bins=50, edgecolor='black')
+plt.title('Histograma do Delay Spread (UMa, 6 GHz)')
+plt.xlabel('Delay Spread (ns)')
+plt.ylabel('Número de Amostras')
+plt.grid(True)
+plt.tight_layout()
+
+# Salvar imagem
+plt.savefig('graficos/histograma_delay_spread_python_2.png')
+plt.close()
