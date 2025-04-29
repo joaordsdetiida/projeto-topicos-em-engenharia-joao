@@ -1,0 +1,34 @@
+# Projeto - Tópicos em Engenharia: Simulação de Canais Seletivos em Frequência
+
+Este projeto realiza uma simulação de canais seletivos em frequência com base no modelo 3GPP TR 38.901, focando no ambiente **UMa NLoS** com frequência central de **6 GHz**. O objetivo é gerar e analisar estatísticas do atraso de propagação do sinal (Delay Spread).
+
+# Estrutura do Projeto
+
+# 1a_modelo_canal_uma.m
+Simula o canal UMa no MATLAB usando o modelo TDL-A e salva os dados do canal para posterior análise.
+
+# 1b_simulacao_delay_spread.py
+Gera amostras aleatórias de delay spread em Python com base em uma distribuição normal, truncada para valores não-negativos.
+
+# 1c_grafico_histograma_matlab.m
+Cria o gráfico do perfil de potência de atraso (PDP) no MATLAB a partir dos dados do canal.
+
+# 1d_grafico_histograma_python.py
+Gera novamente o histograma do delay spread com dados simulados e salva em imagem.
+
+# Resultados
+
+Todos os gráficos estão salvos na pasta `/graficos`:
+- `histograma_delay_spread_python.png`
+- `histograma_delay_spread_python_2.png`
+- `pdp_matlab_uma.png`
+
+# Requisitos
+
+- **MATLAB** com o pacote **5G Toolbox** (para os scripts `.m`)
+- **Python** com as bibliotecas:
+  - numpy
+  - matplotlib
+
+# Organização
+
