@@ -1,0 +1,38 @@
+# 1b_simulacao_delay_spread.py
+# Simulação de delay spread para ambiente UMa em 6 GHz
+
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+
+# Configurações
+np.random.seed(42)
+fc = 6e9  # 6 GHz
+c = 3e8
+lambda_c = c / fc
+num_samples = 10000
+
+# Parâmetros do delay spread (valores típicos para UMa NLoS)
+mean_delay_spread = 150e-9  # 150 ns
+std_delay_spread = 40e-9    # 40 ns
+
+# Gerar amostras com distribuição normal truncada em 0
+delay_spread_samples = mean_delay_spread + std_delay_spread * np.random.randn(num_samples)
+delay_spread_samples = np.clip(delay_spread_samples, 0, None)
+
+# Salvar os dados
+np.save('delay_spread_samples.npy', delay_spread_samples)
+
+# Criar pasta de saída
+os.makedirs('graficos', exist_ok=True)
+
+# Plotar histograma
+plt.figure(figsize=(8, 5))
+plt.hist(delay_spread_samples * 1e9, bins=50, edgecolor='black')
+plt.title('Delay Spread UMa NLoS (6 GHz)')
+plt.xlabel('Delay Spread (ns)')
+plt.ylabel('Número de Amostras')
+plt.grid(True)
+plt.tight_layout()
+plt.savefig('graficos/histograma_delay_spread_python.png')
+plt.close()
