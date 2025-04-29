@@ -1,0 +1,30 @@
+% 1a_modelo_canal_uma.m
+% Modelo de canal UMa baseado no perfil TDL-A com frequência de 6 GHz
+
+% Configurações do canal
+tdl = nrTDLChannel;
+tdl.DelayProfile = 'TDL-A';
+tdl.DelaySpread = 100e-9; % 100 ns
+tdl.CarrierFrequency = 6e9; % 6 GHz
+tdl.SampleRate = 15.36e6; % 15,36 MHz (exemplo)
+
+% Gerar uma forma de onda aleatória
+numSamples = 1e5;
+txWaveform = complex(randn(numSamples,1), randn(numSamples,1));
+
+% Aplicar o canal
+[rxWaveform, pathGains, sampleTimes] = tdl(txWaveform);
+
+% Calcular o perfil de potência de atraso (PDP)
+pdp = mean(abs(pathGains).^2, 1);
+pdp = pdp / sum(pdp); % Normalizar
+
+% Calcular o RMS Delay Spread
+delays = sampleTimes;
+rmsDelaySpread = sqrt(sum(pdp .* (delays - sum(pdp .* delays)).^2));
+
+% Exibir resultados
+fprintf('RMS Delay Spread: %.2f ns\n', rmsDelaySpread * 1e9);
+
+% Salvar os dados para uso posterior
+save('dados_canal.mat', 'pathGains', 'sampleTimes', 'rmsDelaySpread');
